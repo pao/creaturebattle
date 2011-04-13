@@ -6,8 +6,8 @@ function creaturebattle(home, away)
         mangled = mangle({home, away}, salt);
         mdhome = java.security.MessageDigest.getInstance('SHA1');
         mdaway = java.security.MessageDigest.getInstance('SHA1');
-        mdhome.update(mangled(1).getBytes());
-        mdaway.update(mangled(2).getBytes());
+        mdhome.update(mangled{1}.getBytes());
+        mdaway.update(mangled{2}.getBytes());
         battle = sortrows({[mod(double(mdhome.digest),255)' home]; [mod(double(mdaway.digest),255)' away]});
         disp(['The ' battle{1}(21:end) ' has won the battle!']);
     end
