@@ -6,7 +6,8 @@ license: AllRightsReserved
 license-file: ""
 copyright:
 maintainer:
-build-depends: base -any, bytestring -any, cryptohash -any
+build-depends: base -any, bytestring -any, cryptohash -any,
+               fgl -any
 stability:
 homepage:
 package-url:

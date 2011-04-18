@@ -23,6 +23,8 @@ import Data.List
 import Data.Either
 import Data.Function
 
+import qualified Data.Graph.Inductive as G
+
 import System.Environment
 
 import qualified Data.ByteString.Char8 as C
@@ -61,6 +63,11 @@ cagematch :: [String] -> [Victory]
 cagematch ms =
     let cm x y = getWinner $ battlepair [x, y]
     in rights $ cm <$> ms <*> ms
+
+graphCM :: [String] -> [Victory] -> G.Gr String ()
+graphCM ms vs =
+    let nodes ns = G.insMapNodes_ G.new ns G.empty
+    in nodes ms
 
 -- String manipulations
 hash :: String -> C.ByteString
