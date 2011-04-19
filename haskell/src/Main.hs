@@ -66,8 +66,8 @@ cagematch ms =
 
 graphCM :: [String] -> [Victory] -> G.Gr String ()
 graphCM ms vs =
-    let nodes ns = G.insMapNodes_ G.new ns G.empty
-    in nodes ms
+    let edges = map (\v -> (winner v, loser v, ()))
+    in fst $ G.mkMapGraph ms (edges vs)
 
 -- String manipulations
 hash :: String -> C.ByteString
