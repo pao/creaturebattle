@@ -61,13 +61,13 @@ main = do
 
     when doCagematch $ void $ outgraph args
     when (not doCagematch) $ putStrLn $ battle $ take 2 args
-    putStrLn ""
 
 salt = ".NaCl.$^d43lwz;)3s.optimize.this"
 
+outgraph :: [String] -> IO ()
 outgraph ms = do
     result <- GV.runGraphvizCommand GV.Circo (dotgraph ms) GV.Png "creaturebattle.png"
-    either putStrLn putStrLn result
+    either putStrLn (putStr . const "") result
 
 -- Perform a cagematch between monsters, and make a dot string out of it
 dotgraph ms = GV.graphToDot params $ graphCM ms $ cagematch ms
