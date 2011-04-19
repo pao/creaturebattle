@@ -25,6 +25,7 @@ import Data.Function
 import Data.List
 
 import qualified Data.Graph.Inductive as G
+import qualified Data.GraphViz as GV
 
 import System.Console.GetOpt
 import System.Environment
@@ -58,12 +59,23 @@ main = do
 
     let Options { optCagematch = doCagematch } = opts
 
-    when doCagematch $ putStrLn $ G.graphviz (graphCM args (cagematch args)) "" (0,0) (0,0) G.Portrait
+    when doCagematch $ void $ outgraph args
     when (not doCagematch) $ putStrLn $ battle $ take 2 args
+    putStrLn ""
 
 salt = ".NaCl.$^d43lwz;)3s.optimize.this"
 
--- Perform a complete battle between monsters
+outgraph ms = do
+    result <- GV.runGraphvizCommand GV.Circo (dotgraph ms) GV.Png "creaturebattle.png"
+    either putStrLn putStrLn result
+
+-- Perform a cagematch between monsters, and make a dot string out of it
+dotgraph ms = GV.graphToDot params $ graphCM ms $ cagematch ms
+    where
+        params = GV.nonClusteredParams { GV.fmtNode = label }
+        label (_, s) = [GV.Label $ GV.StrLabel s]
+
+-- Perform a two-way battle between monsters
 battle = printWinner . getWinner . battlepair
 
 battlepair :: [String] -> [(C.ByteString, String)]

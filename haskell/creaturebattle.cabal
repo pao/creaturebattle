@@ -7,7 +7,7 @@ license-file: ""
 copyright:
 maintainer:
 build-depends: base -any, bytestring -any, cryptohash -any,
-               fgl -any
+               fgl -any, graphviz -any
 stability:
 homepage:
 package-url:
