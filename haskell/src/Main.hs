@@ -36,18 +36,25 @@ import qualified Crypto.Hash.SHA1 as H
 data Victory = Victory { winner :: String, loser :: String } deriving (Show, Eq)
 type Outcome = Either String Victory
 
--- http://www.haskell.org/haskellwiki/High-level_option_handling_with_GetOpt
-data Options = Options { optCagematch :: Bool }
+data BattleMode = Single | Cage | Tournament
 
-startOptions :: Options
-startOptions = Options { optCagematch = False }
+-- http://www.haskell.org/haskellwiki/High-level_option_handling_with_GetOpt
+data Options = Options { optBattle :: BattleMode }
+
+defaultOpts :: Options
+defaultOpts = Options { optBattle = Single }
 
 options :: [OptDescr (Options -> IO Options)]
 options =
-    [ Option "c" ["cagematch"]
+    [
+      Option "c" ["cagematch"]
         (NoArg
-            (\opt -> return opt { optCagematch = True }))
+            (\opt -> return opt { optBattle = Cage }))
         "Run cagematch instead of direct competition."
+     ,Option "t" ["tournament"]
+        (NoArg
+            (\opt -> return opt { optBattle = Tournament }))
+        "Run bracket tournament instead of direct competition."
     ]
 
 main :: IO ()
@@ -55,54 +62,64 @@ main = do
     rawArgs <- getArgs
 
     let (actions, args, errors) = getOpt RequireOrder options rawArgs
-    opts <- foldl (>>=) (return startOptions) actions
+    opts <- foldl (>>=) (return defaultOpts) actions
 
-    let Options { optCagematch = doCagematch } = opts
-
-    when doCagematch $ void $ outgraph args
-    when (not doCagematch) $ putStrLn $ battle $ take 2 args
+    case optBattle opts of
+        Single      -> putStrLn $ printBattle $ take 2 args
+        Cage        -> matchgraph cagematch args
+        Tournament  -> return ()
 
 salt = ".NaCl.$^d43lwz;)3s.optimize.this"
 
-outgraph :: [String] -> IO ()
-outgraph ms = do
-    result <- GV.runGraphvizCommand GV.Circo (dotgraph ms) GV.Png "creaturebattle.png"
-    either putStrLn (putStr . const "") result
+-- Single battle functions
+printBattle = printWinner . battle
 
--- Perform a cagematch between monsters, and make a dot string out of it
-dotgraph ms = GV.graphToDot params $ graphCM ms $ cagematch ms
-    where
-        params = GV.nonClusteredParams { GV.fmtNode = label }
-        label (_, s) = [GV.Label $ GV.StrLabel s]
-
--- Perform a two-way battle between monsters
-battle = printWinner . getWinner . battlepair
-
-battlepair :: [String] -> [(C.ByteString, String)]
-battlepair monsters =
-    let tm = map trim monsters
-    in zip (map hash $ mangle tm) tm
+battle = getWinner . battlepair
 
 printWinner :: Outcome -> String
 printWinner =
     either (\w -> "The " ++ w ++ " refuses to fight itself!")
            (\w -> "The " ++ winner w ++ " wins!")
 
-getWinner :: [(C.ByteString, String)] -> Outcome
-getWinner entries
-    | all (== fst (head entries)) (map fst entries) = Left $ snd $ head $ entries
-    | otherwise = Right $ Victory (head fight) (fight !! 1)
-    where fight = snd $ unzip $ sortBy (compare `on` fst) entries
+-- Multi-battle functions
+matchgraph :: ([String] -> [Victory]) -> [String] -> IO ()
+matchgraph f ms = printGraph . mkBattleGraph ms $ f ms
 
 cagematch :: [String] -> [Victory]
 cagematch ms =
     let cm x y = getWinner $ battlepair [x, y]
     in nub $ rights $ cm <$> ms <*> ms
 
-graphCM :: [String] -> [Victory] -> G.Gr String ()
-graphCM ms vs =
+-- Graph generation functions
+printGraph = graphOut . dotgraph
+
+graphOut :: GV.DotGraph G.Node -> IO ()
+graphOut dot = do
+    result <- GV.runGraphvizCommand GV.Circo dot GV.Png "creaturebattle.png"
+    either putStrLn (return . const ()) result
+
+dotgraph :: G.Gr String a -> GV.DotGraph G.Node
+dotgraph = GV.graphToDot params
+    where
+        params = GV.nonClusteredParams { GV.fmtNode = label }
+        label (_, s) = [GV.Label $ GV.StrLabel s]
+
+mkBattleGraph :: [String] -> [Victory] -> G.Gr String ()
+mkBattleGraph ms vs =
     let edges = map (\v -> (loser v, winner v, ()))
     in fst $ G.mkMapGraph ms (edges vs)
+
+-- General battle functions
+battlepair :: [String] -> [(C.ByteString, String)]
+battlepair monsters =
+    let tm = map trim monsters
+    in zip (map hash $ mangle tm) tm
+
+getWinner :: [(C.ByteString, String)] -> Outcome
+getWinner entries
+    | all (== fst (head entries)) (map fst entries) = Left $ snd $ head $ entries
+    | otherwise = Right $ Victory (head fight) (fight !! 1)
+    where fight = snd $ unzip $ sortBy (compare `on` fst) entries
 
 -- String manipulations
 hash :: String -> C.ByteString
