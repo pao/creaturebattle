@@ -91,7 +91,7 @@ printWinner =
 getWinner :: [(C.ByteString, String)] -> Outcome
 getWinner entries
     | all (== fst (head entries)) (map fst entries) = Left $ snd $ head $ entries
-    | otherwise = Right $ Victory (head fight) (head $ tail fight)
+    | otherwise = Right $ Victory (head fight) (fight !! 1)
     where fight = snd $ unzip $ sortBy (compare `on` fst) entries
 
 cagematch :: [String] -> [Victory]
@@ -101,7 +101,7 @@ cagematch ms =
 
 graphCM :: [String] -> [Victory] -> G.Gr String ()
 graphCM ms vs =
-    let edges = map (\v -> (winner v, loser v, ()))
+    let edges = map (\v -> (loser v, winner v, ()))
     in fst $ G.mkMapGraph ms (edges vs)
 
 -- String manipulations
