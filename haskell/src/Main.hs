@@ -29,6 +29,8 @@ import qualified Data.GraphViz as GV
 
 import System.Console.GetOpt
 import System.Environment
+import System.Exit
+import System.IO
 
 import qualified Data.ByteString.Char8 as C
 import qualified Crypto.Hash.SHA1 as H
@@ -55,6 +57,13 @@ options =
         (NoArg
             (\opt -> return opt { optBattle = Tournament }))
         "Run bracket tournament instead of direct competition."
+     ,Option "h" ["help"]
+        (NoArg
+            (\_ -> do
+                prg <- getProgName
+                hPutStrLn stderr (usageInfo prg options)
+                exitWith ExitSuccess))
+        "Show help"
     ]
 
 main :: IO ()
