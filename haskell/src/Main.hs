@@ -75,7 +75,7 @@ main = do
 
     case optBattle opts of
         Single      -> putStrLn $ printWinner $ battle (head args) (args !! 1)
-        Cage        -> printGraph $ mkBattleGraph $ cagematch args
+        Cage        -> matchgraph $ cagematch args
         Tournament  -> print $ tournament $ initTournament args
 
 salt = ".NaCl.$^d43lwz;)3s.optimize.this"
@@ -87,12 +87,11 @@ printWinner =
            (\w -> "The " ++ winner w ++ " wins!")
 
 -- Cagematch functions
-matchgraph :: ([String] -> [Victory]) -> [String] -> IO ()
-matchgraph f ms = printGraph . mkBattleGraph $ f ms
+matchgraph :: [Victory] -> IO ()
+matchgraph = printGraph . mkBattleGraph
 
 cagematch :: [String] -> [Victory]
-cagematch ms =
-    (rights . nub) $ battle <$> ms <*> ms
+cagematch ms = (rights . nub) $ battle <$> ms <*> ms
 
 -- Tournament functions
 initTournament :: [String] -> [Victory]
