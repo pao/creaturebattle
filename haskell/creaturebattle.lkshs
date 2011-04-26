@@ -1,9 +1,9 @@
 Version of session file format:
                1
 Time of storage:
-               "Tue Apr 12 22:58:52 Central Daylight Time 2011"
-Layout:        VerticalP (TerminalP {paneGroups = fromList [], paneTabs = Just TopP, currentPage = 0, detachedId = Nothing, detachedSize = Nothing}) (HorizontalP (TerminalP {paneGroups = fromList [("Browser",HorizontalP (TerminalP {paneGroups = fromList [], paneTabs = Nothing, currentPage = 0, detachedId = Nothing, detachedSize = Nothing}) (TerminalP {paneGroups = fromList [], paneTabs = Nothing, currentPage = 0, detachedId = Nothing, detachedSize = Nothing}) 127)], paneTabs = Just BottomP, currentPage = 0, detachedId = Nothing, detachedSize = Nothing}) (TerminalP {paneGroups = fromList [], paneTabs = Just BottomP, currentPage = 0, detachedId = Nothing, detachedSize = Nothing}) 280) 777
-Population:    [(Just (ErrorsSt ErrorsState),[SplitP RightP,SplitP TopP]),(Just (InfoSt (InfoState Nothing)),[SplitP RightP,SplitP TopP,GroupP "Browser",SplitP BottomP]),(Just (LogSt LogState),[SplitP RightP,SplitP BottomP]),(Just (BufferSt (BufferState "C:\\Users\\patrick\\Documents\\creaturebattle\\haskell\\src\\Main.hs" 1230)),[SplitP LeftP]),(Just (ModulesSt (ModulesState 399 (PackageScope False,True) (Just (ModuleName ["Main"]),Nothing) (ExpanderState {packageExp = ([],[]), packageExpNoBlack = ([],[]), packageDExp = ([],[]), packageDExpNoBlack = ([],[]), workspaceExp = ([],[]), workspaceExpNoBlack = ([],[]), workspaceDExp = ([],[]), workspaceDExpNoBlack = ([],[]), systemExp = ([],[]), systemExpNoBlack = ([],[])}))),[SplitP RightP,SplitP TopP,GroupP "Browser",SplitP TopP]),(Just (WorkspaceSt WorkspaceState),[SplitP RightP,SplitP BottomP])]
+               "Mon Apr 25 22:37:38 Central Daylight Time 2011"
+Layout:        VerticalP (TerminalP {paneGroups = fromList [], paneTabs = Just TopP, currentPage = 0, detachedId = Nothing, detachedSize = Nothing}) (HorizontalP (TerminalP {paneGroups = fromList [("Browser",HorizontalP (TerminalP {paneGroups = fromList [], paneTabs = Nothing, currentPage = 0, detachedId = Nothing, detachedSize = Nothing}) (TerminalP {paneGroups = fromList [], paneTabs = Nothing, currentPage = 0, detachedId = Nothing, detachedSize = Nothing}) 136)], paneTabs = Just BottomP, currentPage = 0, detachedId = Nothing, detachedSize = Nothing}) (TerminalP {paneGroups = fromList [], paneTabs = Just BottomP, currentPage = 0, detachedId = Nothing, detachedSize = Nothing}) 294) 777
+Population:    [(Just (ErrorsSt ErrorsState),[SplitP RightP,SplitP TopP]),(Just (InfoSt (InfoState Nothing)),[SplitP RightP,SplitP TopP,GroupP "Browser",SplitP BottomP]),(Just (LogSt LogState),[SplitP RightP,SplitP BottomP]),(Just (BufferSt (BufferState "C:\\Users\\patrick\\Documents\\creaturebattle\\haskell\\src\\Main.hs" 4180)),[SplitP LeftP]),(Just (ModulesSt (ModulesState 399 (PackageScope False,True) (Just (ModuleName ["Main"]),Nothing) (ExpanderState {packageExp = ([],[]), packageExpNoBlack = ([],[]), packageDExp = ([],[]), packageDExpNoBlack = ([],[]), workspaceExp = ([],[]), workspaceExpNoBlack = ([],[]), workspaceDExp = ([],[]), workspaceDExpNoBlack = ([],[]), systemExp = ([],[]), systemExpNoBlack = ([],[])}))),[SplitP RightP,SplitP TopP,GroupP "Browser",SplitP TopP]),(Just (WorkspaceSt WorkspaceState),[SplitP RightP,SplitP BottomP])]
 Window size:   (1200,780)
 Completion size:
                (750,400)
@@ -11,7 +11,7 @@ Workspace:     Just "C:\\Users\\patrick\\Documents\\creaturebattle\\haskell\\cre
 Active pane:   Just "Main.hs"
 Toolbar visible:
                True
-FindbarState:  (False,FindState {entryStr = "", entryHist = [], replaceStr = "", replaceHist = [], caseSensitive = False, entireWord = False, wrapAround = False, regex = False, lineNr = 1})
+FindbarState:  (False,FindState {entryStr = "", entryHist = ["printbat","q","z","asdf","adf"," ","getwinner","battlepair","startOptions","graphCM"], replaceStr = "defaultOpts", replaceHist = [], caseSensitive = False, entireWord = False, wrapAround = True, regex = False, lineNr = 1})
 Recently opened files:
                ["C:\\Users\\patrick\\Documents\\creaturebattle\\haskell\\src\\Main.hs","C:\\Program Files\\Leksah\\leksah\\data\\welcome.txt"]
 Recently opened workspaces:
